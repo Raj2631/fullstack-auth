@@ -1,0 +1,34 @@
+{
+  "name": "mern-boilerplate",
+  "version": "1.0.0",
+  "description": "MERN stack boilerplate with typescript and nextjs",
+  "main": "server.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "express-validator": "^6.9.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.16"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.11",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/node": "^14.14.27",
+    "concurrently": "^6.0.0",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.5"
+  },
+  "scripts": {
+    "start": "cd backend/dist && node server.js",
+    "server": "cd backend/src && nodemon server.ts",
+    "client": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "tsc -p ."
+  },
+  "author": "Raj",
+  "license": "ISC"
+}
