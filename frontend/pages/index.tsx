@@ -3,10 +3,7 @@ import { useEffect } from 'react';
 
 function Homepage() {
   useEffect(() => {
-    const { pathname } = Router;
-    if (pathname == '/') {
-      Router.push('/login');
-    }
+    Router.push('/login');
   });
 
   return (
