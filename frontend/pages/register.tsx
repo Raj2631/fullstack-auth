@@ -1,10 +1,36 @@
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import Input from '../components/Input';
+import useAuth from '../components/useAuth';
+import Router from 'next/router';
 
 const Register = () => {
-  const submitHandler = (e: React.FormEvent) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const context = useAuth();
+
+  useEffect(() => {
+    if (context.authenticated) {
+      Router.push('/');
+    }
+  }, [context]);
+
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const { data } = await axios.post(
+      'http://127.0.0.1:5000/api/users',
+      { name, email, password },
+      config
+    );
+    context.authenticateUser(data?.token);
   };
 
   return (
@@ -12,9 +38,30 @@ const Register = () => {
       <div className=" w-96 bg-white p-4 flex flex-col shadow-lg">
         <h1 className="text-2xl pb-4 font-bold text-center">Sign Up</h1>
         <form onSubmit={submitHandler}>
-          <Input label="Name" required type="text" />
-          <Input label="Email" required type="email" />
-          <Input label="Password" required type="password" />
+          <Input
+            label="Name"
+            value={name}
+            handleChange={(e) => setName(e.target.value)}
+            type="text"
+          />
+          <Input
+            label="Email"
+            value={email}
+            handleChange={(e) => setEmail(e.target.value)}
+            type="email"
+          />
+          <Input
+            label="Password"
+            value={password}
+            handleChange={(e) => setPassword(e.target.value)}
+            type="password"
+          />
+          <Input
+            label="Confirm Password"
+            value={confirmPassword}
+            handleChange={(e) => setConfirmPassword(e.target.value)}
+            type="password"
+          />
           <button
             className="mb-4 hover:bg-blue-700 focus:outline-none mx-auto py-2 bg-blue-600 text-white w-full text-center"
             type="submit"
@@ -23,7 +70,7 @@ const Register = () => {
           </button>
           <p className="text-center">
             Already have an account?{' '}
-            <Link href="login">
+            <Link href="/login">
               <a className="text-blue-800 font-semibold hover:underline">
                 Log In
               </a>

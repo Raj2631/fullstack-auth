@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes';
 import connectDB from './config/db';
+import cors from 'cors';
 import { errorHandler, notFound } from './middlewares/errorMiddleware';
 
 dotenv.config({ path: '../../.env' });
@@ -10,6 +11,7 @@ connectDB();
 
 const app: Application = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {

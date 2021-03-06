@@ -1,16 +1,20 @@
+import React from 'react';
+
 type Props = {
   type: string;
   label: string;
-  required: Boolean;
+  value: string;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Input = ({ label, type, required }: Props) => {
+const Input = ({ label, type, handleChange }: Props) => {
   return (
     <div className="flex flex-col mb-4">
       <label className="text-sm">{label}</label>
       <input
         className="p-1 focus:outline-none rounded border-solid border-2 border-gray-500 text-md"
         required
+        onChange={handleChange}
         type={type}
       />
     </div>

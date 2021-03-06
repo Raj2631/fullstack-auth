@@ -1,11 +1,34 @@
+import { useState, useEffect } from 'react';
+import Router from 'next/router';
 import Link from 'next/link';
 import Input from '../components/Input';
 import axios from 'axios';
+import useAuth from '../components/useAuth';
 
 const Login = () => {
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const context = useAuth();
+
+  useEffect(() => {
+    if (context.authenticated) {
+      Router.push('/');
+    }
+  }, [context]);
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Button Clicked');
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const { data } = await axios.post(
+      'http://127.0.0.1:5000/api/users/login',
+      { email, password },
+      config
+    );
+    context.authenticateUser(data?.token);
   };
 
   return (
@@ -13,8 +36,18 @@ const Login = () => {
       <div className=" w-96 bg-white p-4 flex flex-col shadow-lg">
         <h1 className="text-2xl pb-4 font-bold text-center">Log In</h1>
         <form onSubmit={submitHandler}>
-          <Input label="Email" required type="email" />
-          <Input label="Password" required type="password" />
+          <Input
+            label="Email"
+            value={email}
+            handleChange={(e) => setEmail(e.target.value)}
+            type="email"
+          />
+          <Input
+            label="Password"
+            value={password}
+            handleChange={(e) => setPassword(e.target.value)}
+            type="password"
+          />
           <button
             className="mb-4 hover:bg-blue-700 focus:outline-none mx-auto py-2 bg-blue-600 text-white w-full text-center"
             type="submit"

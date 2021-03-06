@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { authContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 
 const useAuth = () => {
-  const context = useContext(authContext);
+  const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('Something went wrong');
   }

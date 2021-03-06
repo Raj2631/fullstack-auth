@@ -1,30 +1,42 @@
-import { createContext, useState } from 'react';
-
-type User = {
-  id: number;
-};
+import { createContext, ReactNode, useState } from 'react';
 
 type AuthContext = {
   authenticated: boolean;
-  user: User | undefined;
-  authenticateUser: ({}: AuthContext) => void;
+  authenticateUser: (userToken: string) => void;
+  logout: () => void;
 };
 
-export const authContext = createContext<AuthContext | undefined>(undefined);
+type Props = {
+  children: ReactNode;
+};
 
-const AuthContextProvider: React.FC = ({ children }) => {
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<User | undefined>();
+export const AuthContext = createContext<AuthContext | undefined>(undefined);
+let state = false;
 
-  const authenticateUser = ({ authenticated, user }: AuthContext) => {
-    setAuthenticated(authenticated);
-    setUser(user);
+if (typeof window !== 'undefined') {
+  const userToken = localStorage.getItem('UserToken');
+  console.log(userToken);
+  if (userToken) {
+    state = true;
+  }
+}
+const AuthContextProvider = ({ children }: Props) => {
+  const [authenticated, setAuthenticated] = useState(state);
+
+  const authenticateUser = (userToken: string) => {
+    localStorage.setItem('UserToken', JSON.stringify(userToken));
+    setAuthenticated(true);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('UserToken');
+    setAuthenticated(false);
   };
 
   return (
-    <authContext.Provider value={{ authenticated, user, authenticateUser }}>
+    <AuthContext.Provider value={{ authenticated, authenticateUser, logout }}>
       {children}
-    </authContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
