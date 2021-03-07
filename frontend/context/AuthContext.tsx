@@ -15,7 +15,6 @@ let state = false;
 
 if (typeof window !== 'undefined') {
   const userToken = localStorage.getItem('UserToken');
-  console.log(userToken);
   if (userToken) {
     state = true;
   }
