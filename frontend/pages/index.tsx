@@ -1,18 +1,13 @@
 import Router from 'next/router';
 import { useEffect } from 'react';
+import AuthWrapper from '../components/AuthWrapper';
 import useAuth from '../components/useAuth';
 
 function Homepage() {
   const context = useAuth();
 
-  useEffect(() => {
-    if (!context.authenticated) {
-      Router.push('/login');
-    }
-  }, [context]);
-
   return (
-    <>
+    <AuthWrapper>
       <h1 className="text-center my-24 font-black tracking-tight text-6xl">
         Hey! You are now logged in.
       </h1>
@@ -22,7 +17,7 @@ function Homepage() {
       >
         Logout
       </button>
-    </>
+    </AuthWrapper>
   );
 }
 

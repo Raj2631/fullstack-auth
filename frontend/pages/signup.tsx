@@ -5,7 +5,7 @@ import Input from '../components/Input';
 import useAuth from '../components/useAuth';
 import Router from 'next/router';
 
-const Register = () => {
+const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -95,4 +95,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default SignUp;
