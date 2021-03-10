@@ -23,17 +23,21 @@ const SignUp = () => {
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
-      const { data } = await axios.post(
-        'http://127.0.0.1:5000/api/users',
-        { name, email, password },
-        config
-      );
-      context.authenticateUser(data?.token);
+      if (password === confirmPassword) {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+        const { data } = await axios.post(
+          'http://127.0.0.1:5000/api/users',
+          { name, email, password },
+          config
+        );
+        context.authenticateUser(data?.token);
+      } else {
+        setError("Your passwords don't match");
+      }
     } catch (error) {
       setError(
         error.response && error.response.data.message

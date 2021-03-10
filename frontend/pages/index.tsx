@@ -1,5 +1,3 @@
-import Router from 'next/router';
-import { useEffect } from 'react';
 import AuthWrapper from '../components/AuthWrapper';
 import useAuth from '../components/useAuth';
 
