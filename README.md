@@ -1,1 +1,1 @@
-# MERN-typescript-nextjs-boilerplate
+# Fullstack Nextjs Expressjs auth
